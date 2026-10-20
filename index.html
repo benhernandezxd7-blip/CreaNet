@@ -1,6 +1,9 @@
-<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>CreaNet Comunidad</title>
-<meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Figtree:wght@400;500;600;700&display=swap">
@@ -177,17 +180,6 @@ label.f small{font-weight:400;color:var(--muted)}
 .chk input{width:1.25rem;height:1.25rem;margin-top:.2rem;accent-color:var(--accent)}
 .verdict{border-radius:12px;padding:.9rem 1rem;margin-top:.8rem;background:var(--pop-soft);border:1px solid var(--warn-line)}
 
-/* Estilos Asesor IA */
-.chat-box{display:grid;gap:.8rem;max-height:26rem;overflow-y:auto;padding-right:.4rem;margin-bottom:1rem}
-.chat-msg{display:flex;gap:.6rem;align-items:flex-start}
-.chat-msg.user{flex-direction:row-reverse}
-.chat-msg .bub{background:var(--surface-2);border:1px solid var(--line);border-radius:14px;padding:.6rem .9rem;max-width:85%;font-size:.95rem}
-.chat-msg.user .bub{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
-.chat-msg.ia .bub{background:var(--surface);border-color:var(--line)}
-.quick-prompts{display:flex;flex-wrap:wrap;gap:.4rem;margin-bottom:.8rem}
-.quick-btn{border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:.3rem .75rem;font-size:.82rem;font-weight:600;cursor:pointer;color:var(--muted);transition:all .15s}
-.quick-btn:hover{background:var(--accent-soft);color:var(--accent);border-color:var(--accent)}
-
 /* modal */
 .ov{position:fixed;inset:0;z-index:100;background:rgba(8,12,30,.55);display:grid;place-items:center;padding:max(12px,env(safe-area-inset-top,0px)) max(12px,env(safe-area-inset-right,0px)) max(12px,env(safe-area-inset-bottom,0px)) max(12px,env(safe-area-inset-left,0px));overflow:auto}
 .modal{background:var(--surface);border:1px solid var(--line);border-radius:16px;width:min(34rem,100%);max-height:100%;overflow:auto;padding:1.3rem;display:grid;gap:1rem}
@@ -220,6 +212,9 @@ label.f small{font-weight:400;color:var(--muted)}
 }
 </style>
 
+<style>:root{color-scheme:light}[hidden]{display:none!important}img{max-width:100%}</style>
+</head>
+<body>
 <header class="top"><div class="top-in">
   <button class="brand" type="button" data-act="nav" data-v="home" aria-label="CreaNet, ir al inicio"><i></i>CreaNet</button>
   <nav class="tabs" id="tabs" aria-label="Secciones"></nav>
@@ -232,7 +227,8 @@ label.f small{font-weight:400;color:var(--muted)}
 <script>
 (function(){
 'use strict';
-var APP_URL='https://claude.ai/artifact/RU33LUQN5DsBVoPb8DkghP';
+var APP_URL='';
+var STANDALONE=true;
 var $=function(s,r){return (r||document).querySelector(s)};
 var $$=function(s,r){return Array.prototype.slice.call((r||document).querySelectorAll(s))};
 function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
@@ -263,7 +259,7 @@ var EMOJIS=['🙂','😎','🤩','🦊','🐱','🐼','🦋','🌻','🎧','🎨
 var COLORS=['#3347E8','#E8336F','#18915A','#F28C28','#7B4DFF','#0F9DB8'];
 var NETS={instagram:'Instagram',tiktok:'TikTok',whatsapp:'WhatsApp',facebook:'Facebook',otra:'Otra red'};
 
-/* ---------- validadores ---------- */
+/* ---------- validadores (los datos de otros son entrada no confiable) ---------- */
 function safeColor(c){return /^#[0-9a-fA-F]{6}$/.test(c||'')?c:'#3347E8'}
 function safeFrame(f){return FRAMES.some(function(x){return x.id===f})?f:'none'}
 function safeEmoji(e){return typeof e==='string'&&e.length&&e.length<=8?e:'🙂'}
@@ -289,9 +285,7 @@ var I={
  lock:'<svg class="i" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>',
  plus:'<svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>',
  msg:'<svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h16v12H8l-4 4z"/></svg>',
- cart:'<svg class="i" viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="20" r="1.5"/><circle cx="18" cy="20" r="1.5"/><path d="M2 3h3l2.7 12.4a1 1 0 0 0 1 .8h8.6a1 1 0 0 0 1-.8L20 7H6"/></svg>',
- bot:'<svg class="i" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="11" width="18" height="10" rx="2"/><circle cx="8.5" cy="15.5" r="1.5"/><circle cx="15.5" cy="15.5" r="1.5"/><path d="M12 2v4M8 6h8M12 18v2"/></svg>',
- spark:'<svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.4 7.2L21.6 12l-7.2 2.4L12 21.6l-2.4-7.2L2.4 12l7.2-2.4z"/></svg>'
+ cart:'<svg class="i" viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="20" r="1.5"/><circle cx="18" cy="20" r="1.5"/><path d="M2 3h3l2.7 12.4a1 1 0 0 0 1 .8h8.6a1 1 0 0 0 1-.8L20 7H6"/></svg>'
 };
 
 /* ---------- estado ---------- */
@@ -299,19 +293,45 @@ var S={mode:'loading',uid:null,canWrite:true,loggedIn:false,loaded:{},
   profiles:[],posts:[],likes:[],comments:[],shares:[],purchases:[],
   view:{name:'home'},filter:{type:'all',cat:'all'},open:{},confirmDel:null,
   calc:{mat:'20',extra:'5',hours:'1.5',rate:'30',margin:'30',invest:'300'},
-  chat:[
-    {role:'ia',text:'¡Hola! Soy **CreaBot**, tu asesor virtual de emprendimiento en CreaNet. 🚀\n\nPuedo ayudarte a definir tus precios, darte ideas para publicar o aconsejarte cómo promocionar tu hobby. ¿En qué te ayudo hoy?'}
-  ],
-  genIdea:{result:null},
   ready:{},prevLvl:null,dbError:null};
 var COLS=['profiles','posts','likes','comments','shares','purchases'];
 var store=null;
 
-/* ---------- almacén local ---------- */
+/* ---------- datos de ejemplo para la demostración (personas ficticias) ---------- */
+function seedDemo(data){
+  var now=Date.now(),H=3600000;
+  function P(id,o){data.profiles[id]=Object.assign({bio:'',stickers:[],frame:'none',contacts:{network:'',handle:'',show:false},created:now-30*24*H,demo:true},o)}
+  P('d_sofia',{username:'sofia_acuarela',name:'Sofía',hobby:'Acuarela',emoji:'🎨',color:'#7B4DFF',frame:'oro',stickers:['🎨','👑','🌟'],bio:'Pinto retratos y marcapáginas. Acepto encargos los fines de semana.',contacts:{network:'instagram',handle:'demo_sofia',show:true}});
+  P('d_mateo',{username:'mateo_fotos',name:'Mateo',hobby:'Fotografía',emoji:'📷',color:'#0F9DB8',frame:'arcoiris',stickers:['📸','🔥'],bio:'Fotos de graduaciones y eventos del colegio.',contacts:{network:'tiktok',handle:'demo_mateo',show:true}});
+  P('d_luz',{username:'luz_tejidos',name:'Luz',hobby:'Tejido a crochet',emoji:'🧶',color:'#E8336F',frame:'aro',stickers:['⭐'],bio:'Aprendiendo a vender mis gorros.'});
+  P('d_diego',{username:'diego_beats',name:'Diego',hobby:'Música',emoji:'🎧',color:'#18915A',bio:'Compro lo que hace la gente de la comunidad.'});
+  function Po(id,a,o){data.posts[id]=Object.assign({author:a,price:0,img:'',contact:false,ts:now},o)}
+  Po('dp1','d_sofia',{type:'vendo',title:'Retratos en acuarela',text:'Retrato de tu mascota o de tu persona favorita en tamaño carta. Tardo unos 4 días y lo entrego enrollado y protegido.',cat:'Arte y diseño',price:150,contact:true,ts:now-30*H});
+  Po('dp2','d_sofia',{type:'vendo',title:'Marcapáginas ilustrados',text:'Paquete de 3 marcapáginas pintados a mano.',cat:'Arte y diseño',price:40,contact:true,ts:now-52*H});
+  Po('dp3','d_sofia',{type:'muestro',title:'De boceto a acuarela',text:'Así fue mi proceso para el último retrato. ¿Qué les parece el color del fondo?',cat:'Arte y diseño',ts:now-80*H});
+  Po('dp4','d_mateo',{type:'vendo',title:'Sesión de fotos de graduación',text:'Una hora de fotos con 15 imágenes editadas. Voy a tu colegio o a un parque cercano.',cat:'Foto y video',price:600,contact:true,ts:now-20*H});
+  Po('dp5','d_mateo',{type:'muestro',title:'Atardecer desde el malecón',text:'Probé con poca luz y sin trípode. Acepto consejos.',cat:'Foto y video',ts:now-70*H});
+  Po('dp6','d_luz',{type:'consejo',title:'¿Cuánto cobro por un gorro tejido?',text:'Me toma unas 5 horas y gasto C$ 60 en estambre. No sé si es muy caro cobrar C$ 250. ¿Qué opinan?',cat:'Manualidades y tejido',ts:now-6*H});
+  var n=0;function Pu(pid,seller,buyer,title){n++;data.purchases['u'+n]={pid:pid,seller:seller,buyer:buyer,title:title,status:'confirmed',ts:now-24*H}}
+  ['d_diego','d_mateo','x1','x2'].forEach(function(b){Pu('dp1','d_sofia',b,'Retratos en acuarela')});
+  ['d_diego','d_luz','x3','x4'].forEach(function(b){Pu('dp2','d_sofia',b,'Marcapáginas ilustrados')});
+  ['d_diego','d_luz','x5'].forEach(function(b){Pu('dp4','d_mateo',b,'Sesión de fotos de graduación')});
+  function L(pid,owner,uids){uids.forEach(function(u){data.likes[pid+'_'+u]={pid:pid,uid:u,owner:owner,ts:now-2*H}})}
+  L('dp1','d_sofia',['d_diego','d_mateo','d_luz','x1','x2']);L('dp2','d_sofia',['d_diego','d_luz']);L('dp3','d_sofia',['d_luz','d_mateo','x1']);
+  L('dp4','d_mateo',['d_sofia','d_diego','d_luz']);L('dp5','d_mateo',['d_sofia','d_luz']);L('dp6','d_luz',['d_sofia','d_mateo','d_diego','x1']);
+  function C(id,pid,uid,text,h){data.comments[id]={pid:pid,uid:uid,text:text,ts:now-h*H}}
+  C('dc1','dp6','d_sofia','Yo cobraría mínimo C$ 250: ya llevas 5 horas de trabajo más el material. Puedes usar la calculadora de esta página.',3);
+  C('dc2','dp6','d_mateo','Sube una foto con alguien usando el gorro, se ve más bonito.',2);
+  C('dc3','dp5','d_sofia','Me encantan los colores. Prueba subir un poquito el contraste.',40);
+  C('dc4','dp3','d_luz','El fondo quedó muy bonito.',60);
+  data.shares['dp1_d_luz']={pid:'dp1',uid:'d_luz',ts:now-5*H};data.shares['dp4_d_sofia']={pid:'dp4',uid:'d_sofia',ts:now-4*H};
+}
+/* ---------- almacén local (modo demostración) ---------- */
 function makeLocalStore(){
   var KEY='creanet.demo.v1',data={};
   try{data=JSON.parse(localStorage.getItem(KEY))||{}}catch(e){data={}}
   COLS.forEach(function(c){data[c]=data[c]||{}});
+  if(!Object.keys(data.profiles).length&&!data.__seeded){seedDemo(data);data.__seeded=true}
   var subs={};
   function save(){try{localStorage.setItem(KEY,JSON.stringify(data))}catch(e){}}
   function list(c){return Object.keys(data[c]).map(function(id){var o=Object.assign({},data[c][id]);o.id=id;return o})}
@@ -323,8 +343,7 @@ function makeLocalStore(){
     del:function(c,id){delete data[c][id];save();emit(c);return Promise.resolve()}
   };
 }
-
-/* ---------- almacén compartido ---------- */
+/* ---------- almacén compartido (db) ---------- */
 function makeDbStore(db){
   var q={};
   function chain(path,fn){q[path]=(q[path]||Promise.resolve()).catch(function(){}).then(fn);return q[path]}
@@ -373,7 +392,7 @@ function toast(msg){
   var r=$('#toast-root');r.innerHTML='<div class="toast" role="status">'+esc(msg)+'</div>';
   clearTimeout(toast.t);toast.t=setTimeout(function(){r.innerHTML=''},3200);
 }
-function navItems(){return [['home','Inicio',I.home],['ia','Asesor IA',I.bot],['calc','¿Cuánto cobrar?',I.calc],['levels','Niveles',I.star],['profile','Mi perfil',I.user]]}
+function navItems(){return [['home','Inicio',I.home],['calc','¿Cuánto cobrar?',I.calc],['levels','Niveles',I.star],['profile','Mi perfil',I.user]]}
 
 /* ---------- render ---------- */
 var rafId=0;
@@ -405,11 +424,10 @@ function render(){
   if(S.mode==='loading'){html='<div class="col"><div class="skel"></div><div class="skel"></div><div class="skel"></div></div>'}
   else{
     var banners='';
-    if(store&&store.local)banners+='<div class="banner" role="note"><b>Modo demostración.</b> No se pudo conectar la base compartida, así que todo se guarda solo en este navegador y nadie más verá tus publicaciones.</div>';
+    if(store&&store.local)banners+='<div class="banner" role="note"><b>Modo demostración.</b> Todo se guarda solo en este navegador y nadie más verá lo que publiques. Las demás publicaciones son ejemplos con personas ficticias para mostrar cómo funciona. <button class="link" type="button" data-act="qr">Ver código QR</button></div>';
     if(store&&!store.local&&!S.canWrite)banners+='<div class="banner" role="note"><b>Solo lectura.</b> Tu acceso a esta página no permite publicar ni dar me gusta. Pide al dueño que te comparta como Colaborador.</div>';
     if(S.dbError)banners+='<div class="banner" role="note">Se perdió la conexión con los datos compartidos. Recarga la página.</div>';
     if(v==='home')html=viewHome();
-    else if(v==='ia')html=viewIA();
     else if(v==='calc')html=viewCalc();
     else if(v==='levels')html=viewLevels();
     else if(v==='profile')html=viewProfile(S.uid,true);
@@ -419,10 +437,6 @@ function render(){
   main.innerHTML=html;
   restoreDrafts(drafts);
   if(v==='calc')calcUpdate();
-  if(v==='ia'){
-    var cb=$('#chat-box');
-    if(cb)cb.scrollTop=cb.scrollHeight;
-  }
   // aviso de subida de nivel
   if(m&&S.ready.all){var l=statsFor(S.uid).lvl;if(S.prevLvl!==null&&l>S.prevLvl)toast('¡Subiste a '+SELLER[l].name+'! Mira lo que desbloqueaste en tu perfil.');S.prevLvl=l}
   if(S.pendingHash&&S.ready.all){var el=document.getElementById(S.pendingHash);S.pendingHash=null;if(el)el.scrollIntoView()}
@@ -464,7 +478,7 @@ function sideCard(){
    '<div class="bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="'+Math.round(st.pct*100)+'"><i style="width:'+Math.round(st.pct*100)+'%"></i></div>'+
    '<p class="muted" style="margin:0;font-size:.9rem">'+esc(st.next)+'</p>'+
    '<button class="btn primary" type="button" data-act="compose">'+I.plus+' Nueva publicación</button></div>'+
-   '<div class="card"><div class="eyebrow">Asesoría de IA</div><p style="margin:.4rem 0 .8rem">¿Necesitas ayuda para iniciar o promocionar tu emprendimiento?</p><button class="btn" type="button" data-act="nav" data-v="ia">Consultar a CreaBot IA</button></div>';
+   '<div class="card"><div class="eyebrow">¿Y si ya quieres vender?</div><p style="margin:.4rem 0 .8rem">Calcula cuánto cobrar por lo que haces y revisa si ya estás listo.</p><button class="btn" type="button" data-act="nav" data-v="calc">Abrir la calculadora</button></div>';
 }
 
 function postCard(p){
@@ -502,92 +516,6 @@ function postCard(p){
     h+='<div class="cform"><label class="sr" for="c-'+esc(p.id)+'">Escribe un comentario</label><textarea id="c-'+esc(p.id)+'" data-draft="c-'+esc(p.id)+'" maxlength="400" placeholder="Escribe un consejo o una pregunta" rows="2"></textarea><button class="btn primary" type="button" data-act="sendcm" data-id="'+esc(p.id)+'">Enviar</button></div></div>';
   }
   return h+'</article>';
-}
-
-/* ---------- VISTA ASESOR IA ---------- */
-function viewIA(){
-  var h='<div class="col" style="max-width:48rem">';
-  h+='<div><h1 style="font-size:2rem;display:flex;align-items:center;gap:.5rem">'+I.bot+' Asesor Virtual de Emprendimiento</h1>'+
-     '<p class="muted" style="margin:.4rem 0 0">Pregúntale a CreaBot cómo empezar, qué fotos tomar, cómo tratar clientes o genera ideas automáticas para tu negocio.</p></div>';
-
-  // Generador de Copys/Ideas rápidas
-  h+='<div class="card" style="background:var(--accent-soft);border-color:var(--accent)">'+
-     '<div class="eyebrow" style="color:var(--accent);display:flex;align-items:center;gap:.3rem">'+I.spark+' Generador Inteligente de Publicaciones</div>'+
-     '<h2 style="font-size:1.25rem;margin:.3rem 0 .5rem">¿No sabes qué escribir en tu publicación?</h2>'+
-     '<div style="display:flex;gap:.5rem;flex-wrap:wrap">'+
-     '<input type="text" id="ia-idea-input" placeholder="Ej: Postres de limón, pulseras de hilo, clases de guitarra..." style="flex:1;min-width:14rem">'+
-     '<button class="btn primary" type="button" data-act="iaGenIdea">'+I.spark+' Generar Idea</button></div>';
-
-  if(S.genIdea.result){
-    var res=S.genIdea.result;
-    h+='<div class="card" style="margin-top:1rem;background:var(--surface);display:grid;gap:.5rem">'+
-       '<div class="row"><span class="chip t-vendo">Propuesta de la IA</span><span class="chip">'+esc(res.cat)+'</span></div>'+
-       '<h3 style="font-size:1.1rem;margin:0">'+esc(res.title)+'</h3>'+
-       '<p style="margin:0;font-size:.95rem;white-space:pre-wrap">'+esc(res.text)+'</p>'+
-       '<div class="row" style="margin-top:.4rem">'+
-       '<button class="btn sm primary" type="button" data-act="useIaIdea">'+I.plus+' Usar en nueva publicación</button>'+
-       '<button class="btn sm" type="button" data-act="copy" data-t="'+esc(res.title+'\n\n'+res.text)+'">Copiar texto</button>'+
-       '</div></div>';
-  }
-  h+='</div>';
-
-  // Chat con el Asesor Virtual
-  h+='<div class="card"><h2 style="font-size:1.25rem;margin-bottom:.8rem">Conversa con CreaBot</h2>';
-  h+='<div class="quick-prompts">'+
-     '<button class="quick-btn" type="button" data-act="quickAsk" data-q="¿Cómo pierdo el miedo a vender?">¿Cómo pierdo el miedo a vender?</button>'+
-     '<button class="quick-btn" type="button" data-act="quickAsk" data-q="¿Cómo tomar buenas fotos a mis productos con el teléfono?">Fotos con el cel 📸</button>'+
-     '<button class="quick-btn" type="button" data-act="quickAsk" data-q="¿Qué hago si un cliente dice que está muy caro?">Si dicen "está muy caro" 💬</button>'+
-     '<button class="quick-btn" type="button" data-act="quickAsk" data-q="¿En qué redes sociales me conviene publicar?">¿En qué redes publicar? 📱</button>'+
-     '</div>';
-
-  h+='<div class="chat-box" id="chat-box">';
-  h+=S.chat.map(function(m){
-    var isIa=m.role==='ia';
-    var formattedText=esc(m.text).replace(/\*\*(.*?)\*\*/g,'<b>$1</b>').replace(/\n/g,'<br>');
-    return '<div class="chat-msg '+(isIa?'ia':'user')+'">'+
-      (isIa?'<span class="av" style="--s:36px;--c:var(--pop-soft);border:1px solid var(--warn-line)"><span class="face">'+I.bot+'</span></span>':'')+
-      '<div class="bub">'+formattedText+'</div></div>';
-  }).join('');
-  h+='</div>';
-
-  h+='<form data-form="iachat" style="display:flex;gap:.5rem">'+
-     '<label class="sr" for="ia-chat-in">Escribe tu duda</label>'+
-     '<input type="text" id="ia-chat-in" name="msg" placeholder="Hazle una pregunta a la IA sobre tu negocio..." autocomplete="off" required style="flex:1">'+
-     '<button class="btn primary" type="submit">Preguntar</button>'+
-     '</form></div></div>';
-
-  return h;
-}
-
-/* Lógica del simulador de IA para emprendedores */
-function getIAResponse(q){
-  var query=q.toLowerCase();
-  if(query.indexOf('miedo')>-1 || query.indexOf('vergüenza')>-1)
-    return '¡Es completamente normal tener miedo al inicio! 💡 **3 consejos clave**:\n1. Muestra tu proceso y hobby primero en "Muestro mi hobby" sin presión de vender.\n2. Empieza vendiéndole a amigos o familiares de confianza.\n3. Recuerda que no estás rogando, estás ofreciendo algo de valor hecho con tu talento.';
-  if(query.indexOf('foto')>-1 || query.indexOf('imagen')>-1 || query.indexOf('celular')>-1)
-    return '📸 **Tips para fotos increíbles con tu teléfono**:\n1. Usa luz natural cerca de una ventana o al aire libre (evita el flash).\n2. Limpia el lente de tu teléfono antes de tomar la foto.\n3. Usa fondos limpios o de papel kraft/cartulina neutra.\n4. Muestra el producto en uso o siendo sostenido por tus manos.';
-  if(query.indexOf('caro')>-1 || query.indexOf('precio')>-1 || query.indexOf('descuento')>-1)
-    return '💬 **Si te dicen "está muy caro", responde con empatía y valor**:\n• Muestra amablemente la dedicación: "Entiendo, utilizo materiales de alta calidad y me toma X horas hacer cada pieza a mano."\n• Usa nuestra **Calculadora de Precios** (en el menú superior) para estar seguro de que tu precio es justo y no perder dinero.';
-  if(query.indexOf('red')>-1 || query.indexOf('redes')>-1 || query.indexOf('instagram')>-1 || query.indexOf('tiktok')>-1)
-    return '📱 **¿Dónde publicar?**\n• **TikTok / Reels de Instagram**: Ideal si haces manualidades, arte o cocina y puedes grabar videos cortos de tu proceso.\n• **WhatsApp**: Perfecto para ofrecerle primero a tus contactos directos.\n• **CreaNet**: Publícalo aquí para recibir comentarios sinceros de otros emprendedores antes de lanzarlo masivamente.';
-  
-  return '¡Excelente pregunta sobre tu emprendimiento! 🌟 Como recomendación general:\n• Mantén siempre orden en tus costos de materiales.\n• Escucha los comentarios de tus clientes y de esta comunidad.\n• Utiliza nuestra sección **¿Cuánto cobrar?** para asegurarte de tener un margen de ganancia real.';
-}
-
-function generateIaCopy(product){
-  if(!product) return null;
-  var p=product.toLowerCase();
-  var cat='Otro';
-  if(p.indexOf('postre')>-1 || p.indexOf('pastel')>-1 || p.indexOf('galleta')>-1 || p.indexOf('comida')>-1) cat='Repostería y cocina';
-  else if(p.indexOf('dibujo')>-1 || p.indexOf('arte')>-1 || p.indexOf('cuadro')>-1 || p.indexOf('diseño')>-1) cat='Arte y diseño';
-  else if(p.indexOf('pulsera')>-1 || p.indexOf('tejido')>-1 || p.indexOf('crochet')>-1 || p.indexOf('manualidad')>-1) cat='Manualidades y tejido';
-  else if(p.indexOf('foto')>-1 || p.indexOf('video')>-1) cat='Foto y video';
-
-  return {
-    title: product.charAt(0).toUpperCase() + product.slice(1) + ' hechos a mano con mucho cariño ✨',
-    text: '¡Hola a todos! 👋 Les comparto mi más reciente trabajo de ' + product + '. Cuidado hasta el más mínimo detalle para asegurar la mejor calidad.\n\n✨ Hecho 100% a mano\n📩 Pedidos por encargo\n\n¿Qué opinan? ¡Déjenme sus comentarios o consejos para seguir mejorando!',
-    cat: cat
-  };
 }
 
 function viewProfile(uid,isMe){
@@ -758,17 +686,16 @@ function requireLogin(){
 function canDo(){if(!S.canWrite){toast('Tu acceso es de solo lectura.');return false}return true}
 function guard(pr){return Promise.resolve(pr).catch(function(){toast('No se pudo guardar. Revisa tu conexión o tus permisos.')})}
 
-function composeModal(preset){
+function composeModal(){
   if(!requireLogin()||!canDo())return;
-  preset=preset||{};
   var m=me(),hasContact=m&&m.contacts&&m.contacts.handle;
   var h='<div class="mh"><h2>Nueva publicación</h2><button class="x" type="button" data-act="closemodal" aria-label="Cerrar">×</button></div>'+
    '<form data-form="post" style="display:grid;gap:.8rem" novalidate>'+
    '<div class="seg" role="radiogroup" aria-label="Tipo de publicación">'+Object.keys(TYPES).map(function(k,i){return '<button type="button" data-act="ptype" data-v="'+k+'" aria-pressed="'+(i===0)+'">'+esc(TYPES[k])+'</button>'}).join('')+'</div>'+
    '<input type="hidden" name="type" value="muestro">'+
-   '<label class="f" for="p-title">Título<input id="p-title" name="title" type="text" maxlength="80" required value="'+esc(preset.title||'')+'" placeholder="Ej: Pulseras de hilo con tu nombre"></label>'+
-   '<label class="f" for="p-text">Cuéntanos más<small>Qué haces, cuánto tardas, qué necesitas mejorar</small><textarea id="p-text" name="text" maxlength="500">'+esc(preset.text||'')+'</textarea></label>'+
-   '<label class="f" for="p-cat">Categoría<select id="p-cat" name="cat">'+CATS.map(function(c){return '<option'+(preset.cat===c?' selected':'')+'>'+esc(c)+'</option>'}).join('')+'</select></label>'+
+   '<label class="f" for="p-title">Título<input id="p-title" name="title" type="text" maxlength="80" required placeholder="Ej: Pulseras de hilo con tu nombre"></label>'+
+   '<label class="f" for="p-text">Cuéntanos más<small>Qué haces, cuánto tardas, qué necesitas mejorar</small><textarea id="p-text" name="text" maxlength="500"></textarea></label>'+
+   '<label class="f" for="p-cat">Categoría<select id="p-cat" name="cat">'+CATS.map(function(c){return '<option>'+esc(c)+'</option>'}).join('')+'</select></label>'+
    '<label class="f" id="p-price-w" for="p-price" hidden>Precio (C$)<input id="p-price" name="price" type="number" inputmode="decimal" min="0" step="any"></label>'+
    '<label class="f" for="p-img">Foto (opcional)<input id="p-img" name="img" type="file" accept="image/*"></label>'+
    '<label class="chk" style="border:0;padding:0"><input type="checkbox" name="contact"'+(hasContact&&m.contacts.show?' checked':'')+(hasContact?'':' disabled')+'><span>Permitir que me contacten desde esta publicación'+(hasContact?'':'. Primero agrega una red en <button class="link" type="button" data-act="editprofile">Editar perfil</button>')+'</span></label>'+
@@ -859,6 +786,14 @@ function shareModal(pid){
 
 /* ---------- acciones ---------- */
 function firstPurchaseOf(pid){return S.purchases.filter(function(x){return x.pid===pid&&x.buyer===S.uid})[0]}
+function qrModal(){
+  var u=(APP_URL&&APP_URL.indexOf('__')!==0&&!STANDALONE)?APP_URL:location.href.split('#')[0];
+  openModal('<div class="mh"><h2>Código QR del prototipo</h2><button class="x" type="button" data-act="closemodal" aria-label="Cerrar">×</button></div>'+
+   '<div id="qr-box" style="background:#fff;color:#000;padding:14px;border-radius:12px;justify-self:center;min-width:120px;min-height:120px;display:grid;place-items:center">Generando…</div>'+
+   '<p class="muted" style="margin:0;overflow-wrap:anywhere;font-size:.9rem">'+esc(u)+'</p><p class="muted" style="margin:0;font-size:.9rem">Escanéalo con la cámara del teléfono para abrir el prototipo.</p>');
+  function draw(){try{var q=qrcode(0,'M');q.addData(u);q.make();var b=$('#qr-box');b.innerHTML=q.createSvgTag({cellSize:6,margin:0,scalable:true});var s=$('svg',b);if(s){s.style.width='220px';s.style.height='220px'}}catch(e){var b2=$('#qr-box');if(b2)b2.textContent='No se pudo generar el código.'}}
+  if(window.qrcode)draw();else{var sc=document.createElement('script');sc.src='https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js';sc.onload=draw;sc.onerror=function(){var b=$('#qr-box');if(b)b.textContent='No se pudo cargar el generador. Usa la dirección de abajo en un generador de QR.'};document.head.appendChild(sc)}
+}
 function setBg(inp){
   var f=inp.files&&inp.files[0];if(!f)return;if(!canDo())return;
   (function tryQ(max,q){return resizeImage(f,max,q).then(function(d){if(d.length>170000&&q>0.4)return tryQ(Math.round(max*0.8),q-0.1);if(d.length>170000)throw new Error('big');return d})})(1200,0.62)
@@ -866,18 +801,8 @@ function setBg(inp){
    .catch(function(){toast('No se pudo usar esa imagen. Prueba con otra.')});
   inp.value='';
 }
-function sendIaMessage(q){
-  if(!q||!q.trim()) return;
-  S.chat.push({role:'user',text:q.trim()});
-  sched();
-  setTimeout(function(){
-    var reply=getIAResponse(q);
-    S.chat.push({role:'ia',text:reply});
-    sched();
-  },500);
-}
-
 var A={
+  qr:function(){qrModal()},
   bgclear:function(){guard(store.patch('profiles',S.uid,{bg:''}))},
   nav:function(t){S.view={name:t.dataset.v};if(t.dataset.v==='profile'&&!S.loggedIn){S.view={name:'profile'}}sched();window.scrollTo(0,0)},
   user:function(t){S.view={name:'user',uid:t.dataset.uid};sched();window.scrollTo(0,0)},
@@ -894,7 +819,7 @@ var A={
   },
   like:function(t){
     if(!requireLogin()||!canDo())return;
-    var pid=t.dataset.id,id=pid+'_'+S.uid,has=S.likes.some(function(l){return l.uid===S.uid});
+    var pid=t.dataset.id,id=pid+'_'+S.uid,has=S.likes.some(function(l){return l.id===id});
     var post=S.posts.filter(function(x){return x.id===pid})[0];if(!post)return;
     guard(has?store.del('likes',id):store.put('likes',id,{pid:pid,uid:S.uid,owner:post.author,ts:Date.now()}));
   },
@@ -923,4 +848,87 @@ var A={
     try{navigator.clipboard.writeText(txt).then(done,fallback)}catch(e){fallback()}
   },
   contact:function(t){
-    var p=S
+    var p=S.posts.filter(function(x){return x.id===t.dataset.id})[0];if(p)contactModal(p.author);
+  },
+  contactuser:function(t){contactModal(t.dataset.uid)},
+  buy:function(t){
+    if(!requireLogin()||!canDo())return;
+    var pid=t.dataset.id,post=S.posts.filter(function(x){return x.id===pid})[0];if(!post||post.author===S.uid||firstPurchaseOf(pid))return;
+    guard(store.put('purchases',pid+'_'+S.uid,{pid:pid,seller:post.author,buyer:S.uid,title:post.title,status:'pending',ts:Date.now()})).then(function(){toast('Listo. Cuando el vendedor lo confirme, sumará a tu título de comprador.')});
+  },
+  okSale:function(t){guard(store.patch('purchases',t.dataset.id,{status:'confirmed',confirmed:Date.now()})).then(function(){toast('Venta confirmada. ¡Sumaste 3 puntos!')})},
+  noSale:function(t){guard(store.del('purchases',t.dataset.id))},
+  editprofile:function(){editModal()},
+  logout:function(){
+    try{if(store.local)localStorage.removeItem('creanet.demo.session');else sessionStorage.setItem('creanet.out','1')}catch(e){}
+    S.loggedIn=false;S.prevLvl=null;S.view={name:'home'};toast('Cerraste sesión.');sched();
+  },
+  dologin:function(){
+    if(profile(S.uid)){startSession(S.uid);closeModal();toast('Sesión iniciada.');sched()}
+    else{authModal('register');setTimeout(function(){setErr('Aún no tienes cuenta aquí. Créala para continuar.')},0)}
+  },
+  frame:function(t){guard(store.patch('profiles',S.uid,{frame:t.dataset.id}))},
+  sticker:function(t){
+    var p=me(),cur=(p.stickers||[]).slice(),e=t.dataset.e,i=cur.indexOf(e);
+    if(i>-1)cur.splice(i,1);else{if(cur.length>=3){toast('Puedes elegir hasta 3 stickers.');return}cur.push(e)}
+    guard(store.patch('profiles',S.uid,{stickers:cur}));
+  },
+  pemo:function(t){var f=t.closest('form');f.elements.emoji.value=t.dataset.e;$$('[data-act=pemo]',f).forEach(function(b){b.setAttribute('aria-pressed',b===t)})},
+  pcol:function(t){var f=t.closest('form');f.elements.color.value=t.dataset.c;$$('[data-act=pcol]',f).forEach(function(b){b.setAttribute('aria-pressed',b===t)})}
+};
+document.addEventListener('click',function(e){
+  var t=e.target.closest('[data-act]');if(!t)return;
+  var fn=A[t.dataset.act];if(fn){fn(t,e)}
+});
+document.addEventListener('submit',function(e){
+  var f=e.target.closest('form[data-form]');if(!f)return;e.preventDefault();
+  var k=f.dataset.form;
+  if(k==='register')doRegister(f);else if(k==='login')doLoginLocal(f);else if(k==='post')doPost(f);else if(k==='profile')doProfile(f);
+});
+document.addEventListener('input',function(e){
+  var t=e.target;
+  if(t.dataset&&t.dataset.calc){S.calc[t.dataset.calc]=t.value;calcUpdate()}
+});
+document.addEventListener('change',function(e){var d=e.target.dataset||{};if(d.ready!==undefined)calcUpdate();if(d.fcat!==undefined){S.filter.cat=e.target.value;sched()}if(d.bgfile!==undefined)setBg(e.target)});
+
+/* ---------- arranque ---------- */
+function watchAll(){
+  var pending=COLS.length;
+  COLS.forEach(function(c){
+    var first=true;
+    store.watch(c,function(list){
+      S[c]=list;
+      if(first){first=false;S.loaded[c]=true;if(--pending===0){S.ready.all=true;afterLoad()}}
+      sched();
+    });
+  });
+}
+function afterLoad(){
+  try{
+    if(store.local){var s=localStorage.getItem('creanet.demo.session');if(s&&profile(s)){S.uid=s;S.loggedIn=true}}
+    else if(S.uid&&profile(S.uid)&&sessionStorage.getItem('creanet.out')!=='1'){S.loggedIn=true}
+  }catch(e){if(!store.local&&S.uid&&profile(S.uid))S.loggedIn=true}
+  if(S.loggedIn)S.prevLvl=statsFor(S.uid).lvl;
+  var h=location.hash;if(/^#post-[A-Za-z0-9]+$/.test(h))S.pendingHash=h.slice(1);
+}
+function start(db,user){
+  (user?Promise.all([user.id(),user.can('data.write')]):Promise.resolve([null,null])).then(function(r){
+    if(db&&r[0]){S.uid=r[0];S.canWrite=r[1]!==false;store=makeDbStore(db)}
+    else store=makeLocalStore();
+    S.mode='ready';watchAll();sched();
+  });
+}
+render();
+(function(){
+  var use=window.claude&&typeof window.claude.use==='function'?function(n){return window.claude.use(n).catch(function(){return null})}:function(){return Promise.resolve(null)};
+  var started=false;
+  function go(db,user){if(started)return;started=true;start(db,user)}
+  if(STANDALONE||!(window.claude&&typeof window.claude.use==='function')){go(null,null);return}
+  setTimeout(function(){go(null,null)},8000);
+  Promise.all([use('db'),use('user')]).then(function(r){go(r[0],r[1])});
+})();
+})();
+</script>
+
+</body>
+</html>
