@@ -1,0 +1,14 @@
+/* Layout: barra superior con pestañas (abajo en teléfono), feed central y panel de progreso a un lado.
+   Paleta: azul tinta, azul CreaNet, amarillo sacuanjoche y rosa solo para los "me gusta". */
+:root{
+  --bg:#F4F6FC; --surface:#FFFFFF; --surface-2:#EEF1FA; --ink:#0E1A3A; --muted:#58648A; --line:#DCE1F0;
+  --accent:#3347E8; --accent-ink:#FFFFFF; --accent-soft:#E6EAFD; --pop:#FFB400; --pop-soft:#FFF1CC;
+  --like:#E8336F; --ok:#18915A; --ok-soft:#DDF5E9; --warn-soft:#FFF4D4; --warn-line:#E5BD55; --danger:#C62F3E;
+  --shadow:0 1px 2px rgba(14,26,58,.06),0 6px 18px rgba(14,26,58,.05);
+  --f-display:'Bricolage Grotesque','Segoe UI',system-ui,sans-serif;
+  --f-body:'Figtree','Segoe UI',system-ui,-apple-system,sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0A1022; --surface:#121B37; --surface-2:#192446; --ink:#EAEEFA; --muted:#9AA7CC; --line:#26335F;
+    --accent:#8DA2FF; --accent-ink:#0A1022; --accent-soft:#1D2A5E; --pop:#FFB400; --pop-soft:#3A2D0D;
